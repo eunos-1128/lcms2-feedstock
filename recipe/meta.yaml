@@ -11,7 +11,7 @@ source:
     - win_jpegturbo.patch
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("lcms2") }}
 
@@ -38,6 +38,11 @@ test:
     - if not exist %LIBRARY_INC%\\lcms2.h exit 1  # [win]
     - if not exist %LIBRARY_LIB%\\lcms2.lib exit 1  # [win]
     - if not exist %LIBRARY_BIN%\\lcms2.dll exit 1  # [win]
+    - pkg-config --modversion lcms2
+    - pkg-config --cflags lcms2
+    - pkg-config --libs lcms2
+  requires:
+    - pkg-config
 
 about:
   home: http://www.littlecms.com/
