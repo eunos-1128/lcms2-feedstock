@@ -21,6 +21,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - make  # [not win]
+    - m2-sed  # [win]
   host:
     - libjpeg-turbo
     - libtiff
