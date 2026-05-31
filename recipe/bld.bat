@@ -29,3 +29,18 @@ COPY bin\lcms2.lib    %LIBRARY_LIB%\lcms2.lib
 
 COPY include\lcms2.h         %LIBRARY_INC%\lcms2.h
 COPY include\lcms2_plugin.h  %LIBRARY_INC%\lcms2_plugin.h
+
+REM Generate lcms2.pc from upstream template
+mkdir %LIBRARY_LIB%\pkgconfig 2>nul
+set LIB_PREFIX=%PREFIX:\=/%/Library
+sed -e "s|@prefix@|%LIB_PREFIX%|g" ^
+    -e "s|@exec_prefix@|%LIB_PREFIX%|g" ^
+    -e "s|@libdir@|%LIB_PREFIX%/lib|g" ^
+    -e "s|@includedir@|%LIB_PREFIX%/include|g" ^
+    -e "s|@PACKAGE@|lcms2|g" ^
+    -e "s|@VERSION@|%PKG_VERSION%|g" ^
+    -e "s|@LIB_PLUGINS@||g" ^
+    -e "s|@LIB_MATH@||g" ^
+    -e "s|@LIB_THREAD@||g" ^
+    %SRC_DIR%\lcms2.pc.in > %LIBRARY_LIB%\pkgconfig\lcms2.pc
+if errorlevel 1 exit 1
